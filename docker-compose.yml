@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    image: techyao
+    container_name: techyao
+    command: python manage.py runserver 0.0.0.0:8005
+    ports:
+      - "8001:8005"
+    volumes:
+      - .:/web
+      

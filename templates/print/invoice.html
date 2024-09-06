@@ -1,0 +1,89 @@
+<html>
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Invoice</title>
+    <meta name="description" content="Invoice demo sample">
+    <link rel="stylesheet" href="{% static 'weasyprint/print.css' %}">
+    <style>
+      .footer > td{
+        text-align: right;
+      }
+      .tptt{
+        font-weight: 800;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Invoice</h1>
+
+    <aside>
+      <address id="from">
+        TechYao
+        26 rue Emile Decorps
+        69100 Villeurbanne
+        Togo
+      </address>
+
+      <address id="to">
+        Nbe Soro
+        Deux plateau dokui, Abidjan
+        Cote d'ivoire
+        +225 0748278174
+      </address>
+    </aside>
+
+    <dl id="informations">
+      <dt>Invoice number</dt>
+      <dd>12345</dd>
+      <dt>Date</dt>
+      <dd>March 31, 2018</dd>
+    </dl>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>QT</th>
+          <th>P.U.HT</th>
+          <th>TVA</th>
+          <th>PRIX TTC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Website design</td>
+          <td>€34.20</td>
+          <td>€34.20</td>
+          <td>100</td>
+          <td>€3,420.00</td>
+        </tr>
+
+        </tr>
+        <!-- footer -->
+        <tr class="footer">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Total P.U.HT</td>
+          <td>€10,545.00</td>
+        </tr>
+        <tr class="footer">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Total TVA</td>
+          <td>€10,545.00</td>
+        </tr>
+        <tr class="footer">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="tptt">Total PRIX TTC</td>
+          <td class="tptt">€10,545.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

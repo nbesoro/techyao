@@ -1,0 +1,4 @@
+Django==5.1.1
+gunicorn==23.0.0
+pillow==10.4.0
+weasyprint==62.3
