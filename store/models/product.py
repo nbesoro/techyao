@@ -6,7 +6,8 @@ class Category(models.Model):
     """Model definition for Category."""
 
     name = models.CharField(max_length=constants.SHORT_CHARFIELD)
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         """Meta definition for Category."""
 
@@ -28,7 +29,8 @@ class Product(models.Model):
     price = models.FloatField()
     vat = models.FloatField()
     description = models.TextField(null=True, blank=True)
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         """Meta definition for Product."""
 
