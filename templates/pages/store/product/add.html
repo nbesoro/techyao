@@ -1,0 +1,125 @@
+{% extends 'bases/base.html' %} {% block content %}
+<div class="p-4 md:p-5 space-y-4">
+	<h1>New Product</h1>
+</div>
+
+<div class="p-4 md:p-5 space-y-4">
+	<form>
+		<div class="grid gap-6 mb-6 md:grid-cols-1">
+			<div>
+				<label
+					for="product_name"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Name</label
+				>
+				<input
+					type="text"
+					id="product_name"
+					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					placeholder="John"
+					required
+				/>
+			</div>
+		</div>
+		<div class="grid gap-6 mb-6 md:grid-cols-2">
+			<div>
+				<label
+					for="product_brand"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Brand</label
+				>
+				<input
+					type="text"
+					id="product_brand"
+					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					placeholder="Doe"
+					required
+				/>
+			</div>
+			<div>
+				<label
+					for="product_reference"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Reference</label
+				>
+				<input
+					type="text"
+					id="product_reference"
+					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					placeholder="Flowbite"
+					required
+				/>
+			</div>
+		</div>
+		<div class="grid gap-6 mb-6 md:grid-cols-1">
+			<div>
+				<label
+					for="product_category"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Category</label
+				>
+				<select
+					id="product_category"
+					class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+				>
+					<option selected>Choose a product category</option>
+					<option value="US">United States</option>
+					<option value="CA">Canada</option>
+					<option value="FR">France</option>
+					<option value="DE">Germany</option>
+				</select>
+			</div>
+			<div>
+				<label
+					for="product_description"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Description</label
+				>
+				<textarea
+					id="product_description"
+					rows="4"
+					class="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+					placeholder="Write your thoughts here..."
+				></textarea>
+			</div>
+		</div>
+		<div class="grid gap-6 mb-6 md:grid-cols-2">
+			<div>
+				<label
+					for="product_price"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Price</label
+				>
+				<input
+					type="text"
+					id="product_price"
+					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					placeholder="0"
+					required
+				/>
+			</div>
+			<div>
+				<label
+					for="product_vat"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Vat</label
+				>
+				<input
+					type="text"
+					id="product_vat"
+					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					placeholder="0"
+					required
+				/>
+			</div>
+		</div>
+		<button
+			type="submit"
+			class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+		>
+			Submit
+		</button>
+	</form>
+</div>
+
+{% endblock content %}
