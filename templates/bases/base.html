@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="icon"
+			href="https://nbesoro.com/assets/logos/logo_2.svg"
+			type="image/x-icon"
+		/>
+		<title>Document</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+		<link
+			href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css"
+			rel="stylesheet"
+		/>
+		<script>
+			tailwind.config = {
+				theme: {
+					extend: {
+						animation: {
+							border: "background ease infinite",
+						},
+						keyframes: {
+							background: {
+								"0%, 100%": { backgroundPosition: "0% 50%" },
+								"50%": { backgroundPosition: "100% 50%" },
+							},
+						},
+					},
+				},
+			};
+		</script>
+	</head>
+	<body>
+		<main>
+			<!-- Nav -->
+			{% include 'bases/includes/nav.html' %}
+			<!-- / End Nav -->
+
+			<!-- Aside -->
+			{% include 'bases/includes/aside.html' %}
+			<!-- / End Aside -->
+
+			<div class="p-4 sm:ml-64">
+				<div
+					class="hover:animate-background rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s mt-14"
+				>
+				<div class="rounded-[10px] bg-white p-4 sm:p-6">
+					{% block content %} {% endblock content %}
+				</div>
+			</div>
+			</div>
+
+			<section></section>
+		</main>
+		<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+	</body>
+</html>

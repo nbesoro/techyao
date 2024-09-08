@@ -1,0 +1,99 @@
+{% extends 'bases/base.html' %} {% block content %}
+<div class="p-4 md:p-5 space-y-4">
+	<h1>Generate invoice</h1>
+</div>
+
+<div class="p-4 md:p-5 space-y-4">
+	<form>
+		<div class="mb-6">
+			<label
+				for="invoice_customer"
+				class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+				>Customer</label
+			>
+			<select
+				id="invoice_customer"
+				class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+			>
+				<option selected>Choose a customer</option>
+				<option value="US">United States</option>
+				<option value="CA">Canada</option>
+				<option value="FR">France</option>
+				<option value="DE">Germany</option>
+			</select>
+		</div>
+		<div class="grid gap-6 mb-6 md:grid-cols-6">
+			<div class="mb-6 col-span-2">
+				<label
+					for="invoice_product_category"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Product Category</label
+				>
+				<select
+					id="invoice_product_category"
+					class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+				>
+					<option selected>Choose a prouct category</option>
+					<option value="US">United States</option>
+					<option value="CA">Canada</option>
+					<option value="FR">France</option>
+					<option value="DE">Germany</option>
+				</select>
+			</div>
+			<div class="mb-6 col-span-2">
+				<label
+					for="invoice_product"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Product</label
+				>
+				<select
+					id="invoice_product"
+					class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+				>
+					<option selected>Choose a prouct</option>
+					<option value="US">United States</option>
+					<option value="CA">Canada</option>
+					<option value="FR">France</option>
+					<option value="DE">Germany</option>
+				</select>
+			</div>
+
+			<div class="col-span-1">
+				<label
+					for="invoice_product_qty"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Quantity</label
+				>
+				<input
+					type="number"
+					id="invoice_product_qty"
+					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					placeholder="1"
+					required
+				/>
+			</div>
+			<div class="col-span-1">
+				<label
+					for="invoice_price"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Price</label
+				>
+				<input
+					type="text"
+					id="invoice_price"
+					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					placeholder="0"
+					required
+				/>
+			</div>
+		</div>
+		<button
+			type="submit"
+			class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+		>
+			Submit
+		</button>
+	</form>
+</div>
+
+{% endblock content %}
