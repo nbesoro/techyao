@@ -1,39 +1,52 @@
 {% extends 'bases/base.html' %} {% block content %}
 <div class="p-4 md:p-5 space-y-4">
 	<h1>New Product</h1>
+
+	{% include 'pages/form/messages.html' with item='customer' url_list=url_list %}
 </div>
 
 <div class="p-4 md:p-5 space-y-4">
 	<form>
 		<div class="grid gap-4 mb-4 md:grid-cols-5">
-			<div class="flex col-span-1">
-				<div class="flex items-center me-4">
-					<input
-						id="genre-radio"
-						type="radio"
-						value=""
-						name="genre-radio-group"
-						class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-					/>
-					<label
-						for="genre-radio"
-						class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-						>Mr</label
-					>
+			<div class="relative flex flex-col col-span-1">
+				<div class="flex">
+					<div class="flex items-center me-4">
+						<input
+							id="genre-radio"
+							type="radio"
+							value="Mr"
+							v-model="customer.gender"
+							name="genre-radio-group"
+							class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+						/>
+						<label
+							for="genre-radio"
+							class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+							>Mr</label
+						>
+					</div>
+					<div class="flex items-center me-4">
+						<input
+							id="genre-2-radio"
+							type="radio"
+							value="Mrs"
+							v-model="customer.gender"
+							name="genre-radio-group"
+							class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+						/>
+						<label
+							for="genre-2-radio"
+							class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+							>Mrs</label
+						>
+					</div>
 				</div>
-				<div class="flex items-center me-4">
-					<input
-						id="genre-2-radio"
-						type="radio"
-						value=""
-						name="genre-radio-group"
-						class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-					/>
-					<label
-						for="genre-2-radio"
-						class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-						>Mrs</label
-					>
+				<div class="error">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-if="error_message('gender')"
+						v-html="error_message('gender')"
+					></p>
 				</div>
 			</div>
 			<div class="relative col-span-2">
@@ -46,10 +59,18 @@
 					<input
 						type="text"
 						id="last_name"
+						v-model="customer.last_name"
 						class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="John"
 						required
 					/>
+				</div>
+				<div class="error">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-if="error_message('last_name')"
+						v-html="error_message('last_name')"
+					></p>
 				</div>
 			</div>
 
@@ -63,10 +84,18 @@
 					<input
 						type="text"
 						id="first_name"
+						v-model="customer.first_name"
 						class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="John"
 						required
 					/>
+				</div>
+				<div class="error">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-if="error_message('first_name')"
+						v-html="error_message('first_name')"
+					></p>
 				</div>
 			</div>
 		</div>
@@ -75,45 +104,74 @@
 		<div class="mb-6 flex">
 			<div class="pe-6 flex-auto">
 				<div class="grid gap-4 mb-4 md:grid-cols-2">
-					<div class="relative col-span-1">
-						<input
-							type="text"
-							id="phone1"
-							class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-							placeholder=" "
-						/>
-						<label
-							for="phone1"
-							class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
-							>Phone 1</label
-						>
+					<div class="flex flex-col col-span-1">
+						<div class="relative">
+							<input
+								type="text"
+								id="phone1"
+								v-model="customer.phone"
+								class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+								placeholder=" "
+							/>
+							<label
+								for="phone1"
+								class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+								>Phone 1</label
+							>
+						</div>
+						<div class="error">
+							<p
+								class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+								v-if="error_message('phone')"
+								v-html="error_message('phone')"
+							></p>
+						</div>
 					</div>
-
-					<div class="relative col-span-1">
-						<input
-							type="text"
-							id="phone2"
-							class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-							placeholder=" "
-						/>
-						<label
-							for="phone2"
-							class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
-							>Phone 2</label
-						>
+					<div class="flex flex-col col-span-1">
+						<div class="relative">
+							<input
+								type="text"
+								id="phone2"
+								v-model="customer.phone2"
+								class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+								placeholder=" "
+							/>
+							<label
+								for="phone2"
+								class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+								>Phone 2</label
+							>
+						</div>
+						<div class="error">
+							<p
+								class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+								v-if="error_message('phone2')"
+								v-html="error_message('phone2')"
+							></p>
+						</div>
 					</div>
-					<div class="relative col-span-2">
-						<input
-							type="text"
-							id="addresse"
-							class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-							placeholder=" "
-						/>
-						<label
-							for="addresse"
-							class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
-							>Addresse</label
-						>
+					<div class="flex flex-col col-span-2">
+						<div class="relative">
+							<input
+								type="text"
+								id="addresse"
+								v-model="customer.addresse"
+								class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+								placeholder=" "
+							/>
+							<label
+								for="addresse"
+								class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+								>Addresse</label
+							>
+						</div>
+						<div class="error">
+							<p
+								class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+								v-if="error_message('addresse')"
+								v-html="error_message('addresse')"
+							></p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -122,57 +180,102 @@
 			></div>
 			<div class="ps-6 flex-auto">
 				<div class="grid gap-4 mb-4 md:grid-cols-2">
-					<div class="relative col-span-2">
-						<input
-							type="text"
-							id="email"
-							class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-							placeholder=" "
-						/>
-						<label
-							for="email"
-							class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
-							>Email</label
-						>
+					<div class="flex flex-col col-span-2">
+						<div class="relative">
+							<input
+								type="text"
+								id="email"
+								v-model="customer.email"
+								class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+								placeholder=" "
+							/>
+							<label
+								for="email"
+								class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+								>Email</label
+							>
+						</div>
+						<div class="error">
+							<p
+								class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+								v-if="error_message('email')"
+								v-html="error_message('email')"
+							></p>
+						</div>
 					</div>
-
-					<div class="relative col-span-1">
-						<input
-							type="text"
-							id="city"
-							class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-							placeholder=" "
-						/>
-						<label
-							for="city"
-							class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
-							>City</label
-						>
+					<div class="flex flex-col col-span-1">
+						<div class="relative">
+							<input
+								type="text"
+								id="city"
+								v-model="customer.city"
+								class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+								placeholder=" "
+							/>
+							<label
+								for="city"
+								class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+								>City</label
+							>
+						</div>
+						<div class="error">
+							<p
+								class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+								v-if="error_message('city')"
+								v-html="error_message('city')"
+							></p>
+						</div>
 					</div>
-					<div class="relative col-span-1">
-						<input
-							type="text"
-							id="postal_code"
-							class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-							placeholder=" "
-						/>
-						<label
-							for="postal_code"
-							class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
-							>Postal Code</label
-						>
+					<div class="flex flex-col col-span-1">
+						<div class="relative">
+							<input
+								type="text"
+								id="postal_code"
+								v-model="customer.postal_code"
+								class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+								placeholder=" "
+							/>
+							<label
+								for="postal_code"
+								class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+								>Postal Code</label
+							>
+						</div>
+						<div class="error">
+							<p
+								class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+								v-if="error_message('postal_code')"
+								v-html="error_message('postal_code')"
+							></p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<button
-			type="submit"
-			class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-		>
-			Submit
-		</button>
+		<div class="mt-4 flex justify-end">
+			<div class="mr-4">
+				<a href="">
+					<button
+						type="button"
+						class="inline-block w-full rounded-lg text-gray-900 bg-white border border-gray-500 hover:bg-gray-100 font-medium px-10 py-3"
+					>
+						Cancel
+					</button>
+				</a>
+			</div>
+			<div class="{% url 'customer_list' %}">
+				<button
+					type="button"
+					@click="add_new_customer"
+					class="inline-block w-full rounded-lg bg-black px-10 py-3 font-medium text-white sm:w-auto"
+				>
+					Submit
+				</button>
+			</div>
+		</div>
 	</form>
 </div>
+
 
 {% endblock content %}

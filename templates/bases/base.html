@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -10,10 +11,7 @@
 		/>
 		<title>Document</title>
 		<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
-		<link
-			href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css"
-			rel="stylesheet"
-		/>
+		<link href="{% static 'flowbite/main.css' %}" rel="stylesheet" />
 		<script>
 			tailwind.config = {
 				theme: {
@@ -46,14 +44,27 @@
 				<div
 					class="hover:animate-background rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s mt-14"
 				>
-				<div class="rounded-[10px] bg-white p-4 sm:p-6">
-					{% block content %} {% endblock content %}
+					<div
+						class="rounded-[10px] bg-white p-4 sm:p-6"
+						id="vue-app"
+					>
+						{% block content %} {% endblock content %}
+					</div>
 				</div>
 			</div>
-			</div>
-
-			<section></section>
+			<div id="page-name" data-page-name="{{ page }}"></div>
 		</main>
-		<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+		<script src="{% static 'flowbite/flowbite.min.js' %}"></script>
+		<script src="{% static 'vue/dist/axios.min.js' %}"></script>
+		<script src="{% static 'vue/dist/vue.global.js' %}"></script>
+
+		<script>
+			if ("X-CSRFTOKEN" in axios.defaults.headers.common) {
+			} else {
+				axios.defaults.headers.common["X-CSRFTOKEN"] =
+					"{{ csrf_token }}";
+			}
+		</script>
+		<script src="{% static 'vue/scripts.js' %}"></script>
 	</body>
 </html>
