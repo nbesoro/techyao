@@ -255,7 +255,7 @@
 
 		<div class="mt-4 flex justify-end">
 			<div class="mr-4">
-				<a href="">
+				<a href="{% url 'customer_list' %}">
 					<button
 						type="button"
 						class="inline-block w-full rounded-lg text-gray-900 bg-white border border-gray-500 hover:bg-gray-100 font-medium px-10 py-3"
@@ -264,7 +264,7 @@
 					</button>
 				</a>
 			</div>
-			<div class="{% url 'customer_list' %}">
+			<div class="">
 				<button
 					type="button"
 					@click="add_new_customer"

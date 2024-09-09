@@ -18,7 +18,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
+    search_fields = ["category__name", "name", "brand", "ref"]
+    ordering = ["name"]
     def get_serializer_class(self):
         if self.action == "list":
             return ProductListSerializer

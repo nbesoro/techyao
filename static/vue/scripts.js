@@ -25,8 +25,9 @@ const app = Vue.createApp({
 			// Product
 			products: {},
 			product: {
-				category: "",
+				category: 0,
 				name: "",
+				brand: "",
 				ref: "",
 				vat: "",
 				price: "",
@@ -55,12 +56,14 @@ const app = Vue.createApp({
 				case "customer":
 					this.load_customers();
 					break;
-				case "product":
-					console.log("You chose a banana.");
-					break;
 				case "category":
 					this.load_categories();
 					break;
+				case "product":
+					this.load_products();
+					this.load_categories();
+					break;
+
 				default:
 					console.log("Unknown fruit.");
 					break;
@@ -98,6 +101,9 @@ const app = Vue.createApp({
 		add_new_category() {
 			this.post_request("/api/category/", this.category);
 		},
+		add_new_product() {
+			this.post_request("/api/product/", this.product);
+		},
 		load_customers() {
 			axios
 				.get(`/api/customer/?search=${this.searchQuery}`)
@@ -120,6 +126,17 @@ const app = Vue.createApp({
 					console.log(err);
 				});
 		},
+		load_products() {
+			axios
+				.get(`/api/product/?search=${this.searchQuery}`)
+				.then((response) => {
+					this.products = response.data;
+				})
+				.catch((err) => {
+					this.products = {};
+					console.log(err);
+				});
+		},
 		load_modal_to_update(c) {
 			this.form = c;
 			this.update = true;
@@ -133,6 +150,9 @@ const app = Vue.createApp({
 		},
 		search_categories() {
 			this.load_categories();
+		},
+		search_products() {
+			this.load_products();
 		},
 		// Error Message
 		request_error(error) {

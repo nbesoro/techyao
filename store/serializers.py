@@ -18,15 +18,20 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ["category", "name", "ref", "vat", "price", "description"]
+        fields = ["category", "name", "brand", "ref", "vat", "price", "description"]
 
 
 class ProductListSerializer(ProductSerializer):
     category = serializers.SerializerMethodField()
-    
+    price_ttc = serializers.SerializerMethodField()
+    created_at = serializers.DateTimeField(format="%d/%m/%Y %H:%M", read_only=True)
+    updated_at = serializers.DateTimeField(format="%d/%m/%Y %H:%M", read_only=True)
     class Meta:
         model = Product
         fields = "__all__"
 
     def get_category(self, obj):
         return obj.category.name
+
+    def get_price_ttc(self, obj):
+        return obj.price + (obj.price * obj.vat)/100
