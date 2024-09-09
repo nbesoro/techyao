@@ -4,7 +4,7 @@
 </div>
 <div class="flex justify-between items-center mb-3">
 	<div>
-		<h1>1500 Customer</h1>
+		<h1>{customers.count} Customers</h1>
 	</div>
 	<div class="dpd01">
 		<a href="{% url 'add_customer' %}">
@@ -43,6 +43,8 @@
 			<input
 				type="text"
 				id="table-search"
+				v-model="searchQuery"
+				@input="search_customer"
 				class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 				placeholder="Search for items"
 			/>
@@ -58,42 +60,35 @@
 		>
 			<tr>
 				<th scope="col" class="px-6 py-3">ID</th>
-				<th scope="col" class="px-6 py-3">First Name</th>
-				<th scope="col" class="px-6 py-3">Last Name</th>
+				<th scope="col" class="px-6 py-3">Full Name</th>
 				<th scope="col" class="px-6 py-3">Addresse</th>
 				<th scope="col" class="px-6 py-3">Postal Code</th>
 				<th scope="col" class="px-6 py-3">Email</th>
 				<th scope="col" class="px-6 py-3">Phone</th>
 				<th scope="col" class="px-6 py-3">Created at</th>
-				<th scope="col" class="px-6 py-3">Action</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr
 				class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+				v-for="customer in customers.results"
+				:key="customer.id"
 			>
 				<th
 					scope="row"
 					class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
 				>
-					10441875
+					{customer.id}
 				</th>
-				<td class="px-6 py-4">My First Test</td>
-				<td class="px-6 py-4">Succre</td>
-				<td class="px-6 py-4">NS</td>
-				<td class="px-6 py-4">800</td>
-				<td class="px-6 py-4">10 %</td>
-				<td class="px-6 py-4">1000</td>
-				<td class="px-6 py-4">20/12/2025 12:00</td>
-				<td class="px-6 py-4">
-					<a
-						href="#"
-						class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-						>Edit</a
-					>
-				</td>
+				<td class="px-6 py-4">{customer.presentation}</td>
+				<td class="px-6 py-4">{customer.addresse}</td>
+				<td class="px-6 py-4">{customer.postal_code}</td>
+				<td class="px-6 py-4">{customer.email}</td>
+				<td class="px-6 py-4">{customer.phone}</td>
+				<td class="px-6 py-4">{customer.date_joined}</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
+
 {% endblock content %}
