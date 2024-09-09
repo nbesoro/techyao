@@ -1,6 +1,7 @@
 {% extends 'bases/base.html' %} {% block content %}
 <div class="p-4 md:p-5 space-y-4">
 	<h1>New Product</h1>
+	{% include 'pages/form/messages.html' with item='product' url_list=url_list %}
 </div>
 
 <div class="p-4 md:p-5 space-y-4">
@@ -15,110 +16,187 @@
 				<input
 					type="text"
 					id="product_name"
+					v-model="product.name"
 					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-					placeholder="John"
+					placeholder="nuphy Air96 V2"
 					required
 				/>
+			</div>
+			<div class="error" v-if="error_message('name')">
+				<p
+					class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+					v-html="error_message('name')"
+				></p>
 			</div>
 		</div>
 		<div class="grid gap-6 mb-6 md:grid-cols-2">
-			<div>
-				<label
-					for="product_brand"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>Brand</label
-				>
-				<input
-					type="text"
-					id="product_brand"
-					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-					placeholder="Doe"
-					required
-				/>
+			<div class="flex flex-col">
+				<div>
+					<label
+						for="product_brand"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Brand</label
+					>
+					<input
+						type="text"
+						id="product_brand"
+						v-model="product.brand"
+						class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+						placeholder="nuphy"
+						required
+					/>
+				</div>
+				<div class="error" v-if="error_message('brand')">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-html="error_message('brand')"
+					></p>
+				</div>
 			</div>
-			<div>
-				<label
-					for="product_reference"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>Reference</label
-				>
-				<input
-					type="text"
-					id="product_reference"
-					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-					placeholder="Flowbite"
-					required
-				/>
+			<div class="flex flex-col">
+				<div>
+					<label
+						for="product_reference"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Reference</label
+					>
+					<input
+						type="text"
+						id="product_reference"
+						v-model="product.ref"
+						class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+						placeholder="B0CRKR24FC"
+						required
+					/>
+				</div>
+				<div class="error" v-if="error_message('ref')">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-html="error_message('ref')"
+					></p>
+				</div>
 			</div>
 		</div>
 		<div class="grid gap-6 mb-6 md:grid-cols-1">
-			<div>
-				<label
-					for="product_category"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>Category</label
-				>
-				<select
-					id="product_category"
-					class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
-				>
-					<option selected>Choose a product category</option>
-					<option value="US">United States</option>
-					<option value="CA">Canada</option>
-					<option value="FR">France</option>
-					<option value="DE">Germany</option>
-				</select>
+			<div class="flex flex-col">
+				<div>
+					<label
+						for="product_category"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Category</label
+					>
+					<select
+						id="product_category"
+						v-model="product.category"
+						class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+					>
+						<option selected :value="product.category">Choose a product category</option>
+						<option v-for="item in categories.results" :key="item.id" :value="item.id">
+							{ item.name }
+						</option>
+					</select>
+				</div>
+				<div class="error" v-if="error_message('category')">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-html="error_message('category')"
+					></p>
+				</div>
 			</div>
-			<div>
-				<label
-					for="product_description"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>Description</label
-				>
-				<textarea
-					id="product_description"
-					rows="4"
-					class="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-					placeholder="Write your thoughts here..."
-				></textarea>
+			<div class="flex flex-col">
+				<div>
+					<label
+						for="product_description"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Description</label
+					>
+					<textarea
+						id="product_description"
+						v-model="product.description"
+						rows="4"
+						class="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+						placeholder="Write product description here..."
+					></textarea>
+				</div>
+				<div class="error" v-if="error_message('description')">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-html="error_message('description')"
+					></p>
+				</div>
 			</div>
 		</div>
 		<div class="grid gap-6 mb-6 md:grid-cols-2">
-			<div>
-				<label
-					for="product_price"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>Price</label
-				>
-				<input
-					type="text"
-					id="product_price"
-					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-					placeholder="0"
-					required
-				/>
+			<div class="flex flex-col">
+				<div>
+					<label
+						for="product_price"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Price HT</label
+					>
+					<input
+						type="text"
+						id="product_price"
+						v-model="product.price"
+						class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+						placeholder="0"
+						required
+					/>
+				</div>
+				<div class="error" v-if="error_message('price')">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-html="error_message('price')"
+					></p>
+				</div>
 			</div>
-			<div>
-				<label
-					for="product_vat"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>Vat</label
+			
+			<div class="flex flex-col">
+				<div>
+					<label
+						for="product_vat"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Vat</label
+					>
+					<input
+						type="text"
+						id="product_vat"
+						v-model="product.vat"
+						class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+						placeholder="0"
+						required
+					/>
+				</div>
+				<div class="error" v-if="error_message('vat')">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-html="error_message('vat')"
+					></p>
+				</div>
+			</div>
+			
+		</div>
+		<div class="mt-4 flex justify-end">
+			<div class="mr-4">
+				<a href="{% url 'product_list' %}">
+					<button
+						type="button"
+						class="inline-block w-full rounded-lg text-gray-900 bg-white border border-gray-500 hover:bg-gray-100 font-medium px-10 py-3"
+					>
+						Cancel
+					</button>
+				</a>
+			</div>
+			<div class="">
+				<button
+					type="button"
+					@click="add_new_product"
+					class="inline-block w-full rounded-lg bg-black px-10 py-3 font-medium text-white sm:w-auto"
 				>
-				<input
-					type="text"
-					id="product_vat"
-					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-					placeholder="0"
-					required
-				/>
+					Submit
+				</button>
 			</div>
 		</div>
-		<button
-			type="submit"
-			class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-		>
-			Submit
-		</button>
 	</form>
 </div>
 

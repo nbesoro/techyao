@@ -5,7 +5,7 @@ from core.utils import constants
 class Category(models.Model):
     """Model definition for Category."""
 
-    name = models.CharField(max_length=constants.SHORT_CHARFIELD)
+    name = models.CharField(max_length=constants.SHORT_CHARFIELD, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:

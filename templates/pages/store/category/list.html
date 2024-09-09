@@ -1,15 +1,15 @@
 {% extends 'bases/base.html' %} {% block content %}
 <div class="mb-3">
-	<h1>My categories</h1>
+	<h1>Product categories</h1>
 </div>
 <div class="flex justify-between items-center mb-3">
 	<div>
-		<h1>1500 Items</h1>
+		<h1>{categories.count} Categories</h1>
 	</div>
 	<div class="dpd01">
 		<button
-			data-modal-target="static-modal"
-			data-modal-toggle="static-modal"
+			data-modal-target="category-modal"
+			data-modal-toggle="category-modal"
 			class="text-indigo font-medium border border-gray-600 rounded text-sm px-5 py-1 text-center inline-flex items-center dark:hover:bg-blue-700"
 			type="button"
 		>
@@ -43,8 +43,10 @@
 			<input
 				type="text"
 				id="table-search"
+				v-model="searchQuery"
+				@input="search_categories"
 				class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-				placeholder="Search for items"
+				placeholder="Search..."
 			/>
 		</div>
 	</div>
@@ -59,36 +61,28 @@
 			<tr>
 				<th scope="col" class="px-6 py-3">ID</th>
 				<th scope="col" class="px-6 py-3">Name</th>
-				<th scope="col" class="px-6 py-3">category</th>
 				<th scope="col" class="px-6 py-3">Total products</th>
 				<th scope="col" class="px-6 py-3">Created at</th>
 				<th scope="col" class="px-6 py-3">Last Updated</th>
-				<th scope="col" class="px-6 py-3">Action</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr
 				class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+				v-for="category in categories.results"
+				:key="category.id"
 			>
 				<th
 					scope="row"
 					class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
 				>
-					10441875
+					{category.id}
 				</th>
-				<td class="px-6 py-4">My First Test</td>
-				<td class="px-6 py-4">Succre</td>
+				<td class="px-6 py-4">{category.name}</td>
 
-				<td class="px-6 py-4">1000</td>
-				<td class="px-6 py-4">20/12/2025 12:00</td>
-				<td class="px-6 py-4">20/12/2025 12:00</td>
-				<td class="px-6 py-4">
-					<a
-						href="#"
-						class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-						>Edit</a
-					>
-				</td>
+				<td class="px-6 py-4">{category.product_count}</td>
+				<td class="px-6 py-4">{category.created_at}</td>
+				<td class="px-6 py-4">{category.updated_at}</td>
 			</tr>
 		</tbody>
 	</table>

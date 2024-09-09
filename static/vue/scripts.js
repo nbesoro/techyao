@@ -4,6 +4,7 @@ const page_name = pageElement.getAttribute("data-page-name");
 const app = Vue.createApp({
 	data() {
 		return {
+			// Customer
 			customers: {},
 			customer: {
 				first_name: "",
@@ -16,11 +17,28 @@ const app = Vue.createApp({
 				city: "",
 				gender: "",
 			},
+			// Categorie
+			categories: {},
+			category: {
+				name: "",
+			},
+			// Product
+			products: {},
+			product: {
+				category: 0,
+				name: "",
+				brand: "",
+				ref: "",
+				vat: "",
+				price: "",
+				description: "",
+			},
+			//
 			configs: [],
 			message: "Hello world",
 			update: false,
 			sending: false,
-			searchQuery: '',
+			searchQuery: "",
 			// Error
 			errors: {},
 			on_success: false,
@@ -36,14 +54,16 @@ const app = Vue.createApp({
 		load_page_list_data() {
 			switch (page_name) {
 				case "customer":
-					this.load_customer();
-					break;
-				case "product":
-					console.log("You chose a banana.");
+					this.load_customers();
 					break;
 				case "category":
-					console.log("You chose an orange.");
+					this.load_categories();
 					break;
+				case "product":
+					this.load_products();
+					this.load_categories();
+					break;
+
 				default:
 					console.log("Unknown fruit.");
 					break;
@@ -61,10 +81,10 @@ const app = Vue.createApp({
 		error_message(key) {
 			return this.errors.hasOwnProperty(key) ? this.errors[key] : false;
 		},
-		add_new_customer() {
+		post_request(url, data) {
 			self.sending = true;
 			axios
-				.post("/api/customer/", this.customer)
+				.post(url, data)
 				.then((response) => {
 					self.sending = false;
 					this.request_success();
@@ -75,7 +95,16 @@ const app = Vue.createApp({
 					this.request_error(error);
 				});
 		},
-		load_customer() {
+		add_new_customer() {
+			this.post_request("/api/customer/", this.customer);
+		},
+		add_new_category() {
+			this.post_request("/api/category/", this.category);
+		},
+		add_new_product() {
+			this.post_request("/api/product/", this.product);
+		},
+		load_customers() {
 			axios
 				.get(`/api/customer/?search=${this.searchQuery}`)
 				.then((response) => {
@@ -83,6 +112,28 @@ const app = Vue.createApp({
 				})
 				.catch((err) => {
 					this.customers = {};
+					console.log(err);
+				});
+		},
+		load_categories() {
+			axios
+				.get(`/api/category/?search=${this.searchQuery}`)
+				.then((response) => {
+					this.categories = response.data;
+				})
+				.catch((err) => {
+					this.categories = {};
+					console.log(err);
+				});
+		},
+		load_products() {
+			axios
+				.get(`/api/product/?search=${this.searchQuery}`)
+				.then((response) => {
+					this.products = response.data;
+				})
+				.catch((err) => {
+					this.products = {};
 					console.log(err);
 				});
 		},
@@ -94,8 +145,14 @@ const app = Vue.createApp({
 			this.init();
 		},
 		// Search
-		search_customer() {
-			this.load_customer();
+		search_customers() {
+			this.load_customers();
+		},
+		search_categories() {
+			this.load_categories();
+		},
+		search_products() {
+			this.load_products();
 		},
 		// Error Message
 		request_error(error) {
