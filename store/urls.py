@@ -10,6 +10,8 @@ from store.views import (
     generate_invoice,
 )
 
+
+
 urlpatterns = [
     path("", customer_list, name="customer_list"),
     path("customer/new", add_customer, name="add_customer"),
@@ -17,5 +19,5 @@ urlpatterns = [
     path("product", product_list, name="product_list"),
     path("product/new", add_product, name="add_product"),
     path("invoice", generate_invoice, name="generate_invoice"),
-    path("pdf", generate_invoice_pdf),
+    path("pdf", generate_invoice_pdf)
 ]
