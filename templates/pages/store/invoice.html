@@ -5,7 +5,7 @@
 
 <div class="p-4 md:p-5 space-y-4">
 	<form>
-		<div class="mb-6">
+		<div class="mb-3">
 			<label
 				for="invoice_customer"
 				class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -22,8 +22,12 @@
 				<option value="DE">Germany</option>
 			</select>
 		</div>
-		<div class="grid gap-6 mb-6 md:grid-cols-6">
-			<div class="mb-6 col-span-2">
+		<div
+			class="grid gap-6 mb-3 md:grid-cols-6"
+			v-for="(item, index) in invoice_products"
+			:key="index"
+		>
+			<div class="mb-3 col-span-2">
 				<label
 					for="invoice_product_category"
 					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -40,7 +44,7 @@
 					<option value="DE">Germany</option>
 				</select>
 			</div>
-			<div class="mb-6 col-span-2">
+			<div class="mb-3 col-span-2">
 				<label
 					for="invoice_product"
 					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -58,41 +62,108 @@
 				</select>
 			</div>
 
-			<div class="col-span-1">
-				<label
-					for="invoice_product_qty"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>Quantity</label
-				>
-				<input
-					type="number"
-					id="invoice_product_qty"
-					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-					placeholder="1"
-					required
-				/>
-			</div>
-			<div class="col-span-1">
-				<label
-					for="invoice_price"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>Price</label
-				>
-				<input
-					type="text"
-					id="invoice_price"
-					class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-					placeholder="0"
-					required
-				/>
+			<div class="mb-3 col-span-2">
+				<div class="grid gap-6 md:grid-cols-7">
+					<div class="col-span-3">
+						<label
+							for="invoice_product_qty"
+							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							>Quantity</label
+						>
+						<input
+							type="number"
+							id="invoice_product_qty"
+							class="mt-1.5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full"
+							placeholder="1"
+							required
+						/>
+					</div>
+					<div class="col-span-3">
+						<label
+							for="invoice_price"
+							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							>Price</label
+						>
+						<input
+							type="text"
+							id="invoice_price"
+							class="mt-1.5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full"
+							placeholder="0"
+							required
+						/>
+					</div>
+					<div class="col-span-1 flex items-center justify-center" v-show="index>0">
+						<button
+							class="inline-block rounded-full text-red-700 border border-red-700 hover:bg-red-500 p-1 mt-7 hover:text-white active:bg-red-500"
+							type="button"
+							@click="delete_order_item(index)"
+						>
+							<span class="sr-only"> Download </span>
+
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="size-3"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M6 18 18 6M6 6l12 12"
+								/>
+							</svg>
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		<button
-			type="submit"
-			class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-		>
-			Submit
-		</button>
+		<div class="">
+			<button
+				class="inline-flex items-center gap-2 rounded border px-8 py-1 text-gray-900 bg-white border-gray-500 hover:bg-gray-100"
+				type="button"
+				
+			>
+				<span class="text-sm font-medium"> Add product </span>
+
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="size-3"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M12 4.5v15m7.5-7.5h-15"
+					/>
+				</svg>
+			</button>
+		</div>
+		<div class="mt-4 flex justify-end">
+			<div class="mr-4">
+				<a href="{% url 'customer_list' %}">
+					<button
+						type="button"
+						class="inline-block w-full rounded-lg text-gray-900 bg-white border border-gray-500 hover:bg-gray-100 font-medium px-10 py-3"
+					>
+						Cancel
+					</button>
+				</a>
+			</div>
+			<div class="">
+				<button
+					type="button"
+					@click="add_new_customer"
+					class="inline-block w-full rounded-lg bg-black px-10 py-3 font-medium text-white sm:w-auto"
+				>
+					Submit
+				</button>
+			</div>
+		</div>
 	</form>
 </div>
 

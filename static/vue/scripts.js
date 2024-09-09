@@ -33,6 +33,23 @@ const app = Vue.createApp({
 				price: "",
 				description: "",
 			},
+			// Inoives
+			invoice_products: [
+				{
+					category: 0,
+					product: 0,
+					price_ht: "",
+					vat: "",
+					price_ttc: "",
+				},
+				{
+					category: 0,
+					product: 0,
+					price_ht: "",
+					vat: "",
+					price_ttc: "",
+				},
+			],
 			//
 			configs: [],
 			message: "Hello world",
@@ -63,7 +80,10 @@ const app = Vue.createApp({
 					this.load_products();
 					this.load_categories();
 					break;
-
+				case "gen_invoice":
+					this.load_customers();
+					this.load_categories();
+					break;
 				default:
 					console.log("Unknown fruit.");
 					break;
@@ -153,6 +173,10 @@ const app = Vue.createApp({
 		},
 		search_products() {
 			this.load_products();
+		},
+		// Invoices
+		delete_order_item(index) {
+			this.invoice_products.splice(index, 1);
 		},
 		// Error Message
 		request_error(error) {
