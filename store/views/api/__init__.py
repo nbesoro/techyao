@@ -1,1 +1,2 @@
-from .store import CategoryViewSet, ProductViewSet
+from .product import CategoryViewSet, ProductViewSet
+from .order import OrderViewSet

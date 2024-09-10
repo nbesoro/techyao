@@ -3,6 +3,7 @@ from .pages import (
     add_customer,
     category_list,
     product_list,
+    invoice_list,
     generate_invoice,
     add_product,
 )

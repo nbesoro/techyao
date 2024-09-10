@@ -1,0 +1,297 @@
+{% extends 'bases/base.html' %} {% block content %}
+<div class="p-4 md:p-5 space-y-4">
+	<h1>Generate invoice</h1>
+	{% include 'pages/form/messages.html' with item='invoice' url_list=url_list%}
+</div>
+
+<div class="p-4 md:p-5 space-y-4">
+	<form>
+		<div class="mb-3">
+			<label
+				for="invoice_customer"
+				class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+				>Customer</label
+			>
+			<select
+				id="invoice_customer"
+				v-model="order.customer"
+				class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+			>
+				<option value="" selected>Choose a customer</option>
+				<option
+					v-for="customer in customers.results"
+					:key="customer.id"
+					:value="customer.id"
+				>
+					{ customer.presentation }
+				</option>
+			</select>
+			<div class="error" v-if="error_message('customer')">
+				<p
+					class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+					v-html="error_message('customer')"
+				></p>
+			</div>
+		</div>
+		<div
+			class="grid gap-6 mb-3 md:grid-cols-6"
+			v-for="(item, index) in order.items"
+			:key="index"
+		>
+			<div class="mb-3 col-span-2">
+				<label
+					for="invoice_product_category"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Product Category</label
+				>
+				<select
+					id="invoice_product_category"
+					v-model="item.category"
+					@change="handleCategorySelection(item, index)"
+					class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+				>
+					<option value="0" selected>Choose a prouct category</option>
+					<option
+						v-for="category in availableCategories(index)"
+						:key="category.id"
+						:value="category.id"
+					>
+						{ category.name }
+					</option>
+				</select>
+			</div>
+			<div class="mb-3 col-span-2">
+				<label
+					for="invoice_product"
+					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>Product</label
+				>
+				<select
+					id="invoice_product"
+					v-model="item.product"
+					@change="set_order_item_product_price(item, index)"
+					class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+				>
+					<option value="" selected>Choose a prouct</option>
+					<option
+						v-for="product in item.products.results"
+						:key="product.id"
+						:value="product.id"
+					>
+						{ product.name }
+					</option>
+				</select>
+				<div class="error" v-if="item_error_message(index,'product')">
+					<p
+						class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+						v-html="item_error_message(index,'product')"
+					></p>
+				</div>
+			</div>
+
+			<div class="mb-3 col-span-2">
+				<div class="grid gap-6 md:grid-cols-7">
+					<div class="col-span-3">
+						<label
+							for="invoice_price"
+							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							>Price U HT</label
+						>
+						<input
+							type="text"
+							id="invoice_price"
+							v-model="item.price_ht"
+							class="mt-1.5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full"
+							placeholder="0"
+							required
+						/>
+						<div
+							class="error"
+							v-if="item_error_message(index,'price_ht')"
+						>
+							<p
+								class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+								v-html="item_error_message(index,'price_ht')"
+							></p>
+						</div>
+					</div>
+					<div class="col-span-3">
+						<label
+							for="invoice_product_qty"
+							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							>Quantity</label
+						>
+						<input
+							type="number"
+							id="invoice_product_qty"
+							v-model="item.quantity"
+							class="mt-1.5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full"
+							placeholder="1"
+							required
+						/>
+						<div
+							class="error"
+							v-if="item_error_message(index,'quantity')"
+						>
+							<p
+								class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"
+								v-html="item_error_message(index,'quantity')"
+							></p>
+						</div>
+					</div>
+
+					<div
+						class="col-span-1 flex items-center justify-center"
+						v-show="index>0"
+					>
+						<button
+							class="inline-block rounded-full text-red-700 border border-red-700 hover:bg-red-500 p-1 mt-7 hover:text-white active:bg-red-500"
+							type="button"
+							@click="delete_order_item(index)"
+						>
+							<span class="sr-only"> Remove </span>
+
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="size-3"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M6 18 18 6M6 6l12 12"
+								/>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="">
+			<button
+				class="inline-flex items-center gap-2 rounded border px-8 py-1 text-gray-900 bg-white border-gray-500 hover:bg-gray-100"
+				type="button"
+				@click="add_order_item"
+			>
+				<span class="text-sm font-medium"> Add product </span>
+
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="size-3"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M12 4.5v15m7.5-7.5h-15"
+					/>
+				</svg>
+			</button>
+		</div>
+		<div class="mt-4 flex justify-end">
+			<div class="mr-4">
+				<a href="{% url 'invoice_list' %}">
+					<button
+						type="button"
+						class="inline-block w-full rounded-lg text-gray-900 bg-white border border-gray-500 hover:bg-gray-100 font-medium px-10 py-3"
+					>
+						Cancel
+					</button>
+				</a>
+			</div>
+			<div class="">
+				<button
+					type="button"
+					class="inline-block w-full rounded-lg bg-black px-10 py-3 font-medium text-white sm:w-auto"
+					@click="validate_invoice"
+				>
+					Generate
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div
+	v-show="display_modal"
+	id="popup-modal"
+	tabindex="-1"
+	class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
+	aria-modal="true"
+	role="dialog"
+>
+	<div class="relative p-4 w-full max-w-md max-h-full">
+		<div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+			<button
+				type="button"
+				@click="hide_modal"
+				class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+			>
+				<svg
+					class="w-3 h-3"
+					aria-hidden="true"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 14 14"
+				>
+					<path
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+					/>
+				</svg>
+				<span class="sr-only">Close modal</span>
+			</button>
+			<div class="p-4 md:p-5 text-center">
+				<svg
+					class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+					aria-hidden="true"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 20 20"
+				>
+					<path
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+					/>
+				</svg>
+				<h3
+					class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"
+				>
+					Are you sure you want to generate this invoice? Once
+					generated, you will no longer be able to modify it.
+				</h3>
+				<button
+					type="button"
+					@click="generate_invoice"
+					class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+				>
+					Yes, I'm sure
+				</button>
+				<button
+					type="button"
+					@click="hide_modal"
+					class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+				>
+					No, I'm reviewing.
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div
+	v-show="display_modal"
+	class="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"
+></div>
+{% endblock content %}

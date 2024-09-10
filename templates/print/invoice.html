@@ -27,18 +27,18 @@
       </address>
 
       <address id="to">
-        Nbe Soro
-        Deux plateau dokui, Abidjan
-        Cote d'ivoire
-        +225 0748278174
+        {{ customer.presentation }}
+        {{ customer.addresse }}
+        {{ customer.postal_code }}, {{ customer.city }}
+        {{ customer.phone }}
       </address>
     </aside>
 
     <dl id="informations">
       <dt>Invoice number</dt>
-      <dd>12345</dd>
+      <dd>{{ number }}</dd>
       <dt>Date</dt>
-      <dd>March 31, 2018</dd>
+      <dd>{{ created_at }}</dd>
     </dl>
 
     <table>
@@ -52,13 +52,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Website design</td>
-          <td>€34.20</td>
-          <td>€34.20</td>
-          <td>100</td>
-          <td>€3,420.00</td>
-        </tr>
+        
+        {% for item in items %}
+          <tr>
+            <td>{{ item.product }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price_ht }}</td>
+            <td>{{ item.vat }}</td>
+            <td>{{ item.total_price_ttc }}</td>
+          </tr>
+        {% endfor %}
+          
 
         </tr>
         <!-- footer -->
@@ -67,21 +71,21 @@
           <td></td>
           <td></td>
           <td>Total P.U.HT</td>
-          <td>€10,545.00</td>
+          <td>{{ total_price_ht }}</td>
         </tr>
         <tr class="footer">
           <td></td>
           <td></td>
           <td></td>
           <td>Total TVA</td>
-          <td>€10,545.00</td>
+          <td>{{ total_price_vat }}</td>
         </tr>
         <tr class="footer">
           <td></td>
           <td></td>
           <td></td>
           <td class="tptt">Total PRIX TTC</td>
-          <td class="tptt">€10,545.00</td>
+          <td class="tptt">{{ total_price_ttc }}</td>
         </tr>
       </tbody>
     </table>
