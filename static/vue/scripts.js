@@ -34,6 +34,7 @@ const app = Vue.createApp({
 				description: "",
 			},
 			// Inoives
+			invoices: {},
 			order: {
 				customer: "",
 				items: [
@@ -74,7 +75,8 @@ const app = Vue.createApp({
 					this.load_products();
 					this.load_categories();
 					break;
-				case "gen_invoice":
+				case "invoice":
+					this.load_invoices();
 					this.load_customers();
 					this.load_categories();
 					break;
@@ -130,7 +132,7 @@ const app = Vue.createApp({
 				.post(url, data)
 				.then((response) => {
 					this.request_success();
-					this.init()
+					this.init();
 				})
 				.catch((error) => {
 					this.on_success = false;
@@ -176,6 +178,16 @@ const app = Vue.createApp({
 					this.products = {};
 				});
 		},
+		load_invoices() {
+			axios
+				.get(`/api/order/?search=${this.searchQuery}`)
+				.then((response) => {
+					this.invoices = response.data;
+				})
+				.catch((err) => {
+					this.invoices = {};
+				});
+		},
 		load_products_by_category(item) {
 			axios
 				.get(`/api/product/?category=${item.category}`)
@@ -199,6 +211,9 @@ const app = Vue.createApp({
 		},
 		search_products() {
 			this.load_products();
+		},
+		search_invoices() {
+			this.load_invoices();
 		},
 		//------------ Invoices
 		show_modal() {
@@ -237,7 +252,8 @@ const app = Vue.createApp({
 			axios
 				.post("/api/order/", cleanedOrder)
 				.then((response) => {
-					console.log(response);
+					console.log(response.data.pdf_url);
+					window.location.replace(response.data.pdf_url);
 				})
 				.catch((error) => {
 					this.on_success = false;

@@ -7,9 +7,9 @@ from store.views import (
     category_list,
     product_list,
     add_product,
+    invoice_list,
     generate_invoice,
 )
-
 
 
 urlpatterns = [
@@ -18,6 +18,7 @@ urlpatterns = [
     path("category", category_list, name="category_list"),
     path("product", product_list, name="product_list"),
     path("product/new", add_product, name="add_product"),
-    path("invoice", generate_invoice, name="generate_invoice"),
-    path("pdf", generate_invoice_pdf)
+    path("invoice", invoice_list, name="invoice_list"),
+    path("invoice/generate", generate_invoice, name="generate_invoice"),
+    path("pdf/<int:order_id>", generate_invoice_pdf, name="generate_invoice_pdf"),
 ]
