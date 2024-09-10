@@ -13,13 +13,15 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     search_fields = ["name"]
     ordering = ["name"]
-    
-    
+
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filterset_fields = ("category",)
     search_fields = ["category__name", "name", "brand", "ref"]
     ordering = ["name"]
+
     def get_serializer_class(self):
         if self.action == "list":
             return ProductListSerializer

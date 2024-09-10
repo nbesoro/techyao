@@ -18,4 +18,10 @@ def set_order_number(sender, instance, **kwargs):
         instance.number = generate_order_number()
 
 
+def set_order_item_price_ttc(sender, instance, **kwargs):
+    instance.vat = instance.product.vat
+    instance.price_ttc = instance.price_ht + (instance.price_ht * instance.vat) / 100
+
+
 pre_save.connect(set_order_number, sender=Order)
+pre_save.connect(set_order_item_price_ttc, sender=OrderItem)

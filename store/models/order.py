@@ -40,7 +40,7 @@ class OrderItem(models.Model):
     )
     price_ht = models.FloatField()
     vat = models.PositiveIntegerField()
-    price_ttc = models.FloatField()
+    price_ttc = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

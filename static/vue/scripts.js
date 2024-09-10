@@ -34,27 +34,21 @@ const app = Vue.createApp({
 				description: "",
 			},
 			// Inoives
-			invoice_products: [
-				{
-					category: 0,
-					product: 0,
-					price_ht: "",
-					vat: "",
-					price_ttc: "",
-				},
-				{
-					category: 0,
-					product: 0,
-					price_ht: "",
-					vat: "",
-					price_ttc: "",
-				},
-			],
-			//
-			configs: [],
-			message: "Hello world",
-			update: false,
-			sending: false,
+			order: {
+				customer: "",
+				items: [
+					{
+						category: 0,
+						products: [],
+						product: "",
+						quantity: 1,
+						price_ht: 0,
+					},
+				],
+			},
+			selectedCategories: [],
+			display_modal: false,
+			// Searche
 			searchQuery: "",
 			// Error
 			errors: {},
@@ -89,28 +83,56 @@ const app = Vue.createApp({
 					break;
 			}
 		},
-		init() {},
-		portPlaceholder() {
-			return JSON.parse(this.form.use_tls)
-				? "Enter SSL port"
-				: "Enter TLS port";
+
+		init() {
+			this.product = {
+				category: 0,
+				name: "",
+				brand: "",
+				ref: "",
+				vat: "",
+				price: "",
+				description: "",
+			};
+
+			this.customer = {
+				first_name: "",
+				last_name: "",
+				email: "",
+				phone: "",
+				phone2: "",
+				addresse: "",
+				postal_code: "",
+				city: "",
+				gender: "",
+			};
+
+			this.order = {
+				customer: "",
+				items: [
+					{
+						category: 0,
+						products: [],
+						product: "",
+						quantity: 1,
+						price_ht: 0,
+					},
+				],
+			};
+
+			this.category = {
+				name: "",
+			};
 		},
-		displayInput() {
-			return JSON.parse(this.contact.use_file);
-		},
-		error_message(key) {
-			return this.errors.hasOwnProperty(key) ? this.errors[key] : false;
-		},
+
 		post_request(url, data) {
-			self.sending = true;
 			axios
 				.post(url, data)
 				.then((response) => {
-					self.sending = false;
 					this.request_success();
+					this.init()
 				})
 				.catch((error) => {
-					self.sending = false;
 					this.on_success = false;
 					this.request_error(error);
 				});
@@ -132,7 +154,6 @@ const app = Vue.createApp({
 				})
 				.catch((err) => {
 					this.customers = {};
-					console.log(err);
 				});
 		},
 		load_categories() {
@@ -143,7 +164,6 @@ const app = Vue.createApp({
 				})
 				.catch((err) => {
 					this.categories = {};
-					console.log(err);
 				});
 		},
 		load_products() {
@@ -154,17 +174,23 @@ const app = Vue.createApp({
 				})
 				.catch((err) => {
 					this.products = {};
-					console.log(err);
 				});
 		},
-		load_modal_to_update(c) {
-			this.form = c;
-			this.update = true;
+		load_products_by_category(item) {
+			axios
+				.get(`/api/product/?category=${item.category}`)
+				.then((response) => {
+					item.products = response.data;
+					item.product = "";
+					item.price_ht = 0;
+				})
+				.catch((err) => {
+					item.products = [];
+					item.product = "";
+					item.price_ht = 0;
+				});
 		},
-		load_modal_to_add() {
-			this.init();
-		},
-		// Search
+		//------- Search
 		search_customers() {
 			this.load_customers();
 		},
@@ -174,11 +200,122 @@ const app = Vue.createApp({
 		search_products() {
 			this.load_products();
 		},
-		// Invoices
-		delete_order_item(index) {
-			this.invoice_products.splice(index, 1);
+		//------------ Invoices
+		show_modal() {
+			this.display_modal = true;
 		},
+		hide_modal() {
+			this.display_modal = false;
+		},
+		clean_order_items_before_post() {
+			let clened_order = { ...this.order };
+			clened_order.items = this.order.items.map((item) => {
+				const new_item = { ...item };
+				delete new_item.oldCategory;
+				delete new_item.products;
+				return new_item;
+			});
+
+			return clened_order;
+		},
+		validate_invoice() {
+			const cleanedOrder = this.clean_order_items_before_post();
+			axios
+				.post("/api/order/validate/", cleanedOrder)
+				.then((response) => {
+					this.show_modal();
+				})
+				.catch((error) => {
+					this.on_success = false;
+					this.request_error(error);
+				});
+		},
+		generate_invoice() {
+			const cleanedOrder = this.clean_order_items_before_post();
+			console.log(this.order);
+			console.log(cleanedOrder);
+			axios
+				.post("/api/order/", cleanedOrder)
+				.then((response) => {
+					console.log(response);
+				})
+				.catch((error) => {
+					this.on_success = false;
+					this.request_error(error);
+				});
+		},
+		delete_order_item(index) {
+			const removedCategory = this.order.items[index].category;
+			if (removedCategory > 0) {
+				this.selectedCategories = this.selectedCategories.filter(
+					(cat) => cat.id !== removedCategory
+				);
+			}
+			this.order.items.splice(index, 1);
+		},
+		add_order_item() {
+			this.order.items.push({
+				category: 0,
+				product: "",
+				products: [],
+				quantity: 1,
+				price_ht: 0,
+				vat: 0,
+			});
+		},
+
+		set_order_item_product_price(item, index) {
+			let price = 0;
+			if (item.product > 0) {
+				price = item.products.results.filter(
+					(product) => product.id === item.product
+				)[0].price;
+			}
+			item.price_ht = price;
+		},
+
+		handleCategorySelection(item, index) {
+			if (item.oldCategory) {
+				this.selectedCategories = this.selectedCategories.filter(
+					(cat) => cat.id !== item.oldCategory
+				);
+			}
+
+			if (item.category) {
+				let cat = this.categories.results.filter(
+					(category) => category.id === item.category
+				)[0];
+				this.selectedCategories.push(cat);
+				item.oldCategory = item.category;
+
+				this.load_products_by_category(item, index);
+			}
+		},
+
+		availableCategories(index) {
+			return this.categories?.results?.filter(
+				(category) =>
+					!this.selectedCategories.some(
+						(selectedCat) => selectedCat.id === category.id
+					) ||
+					(this.order.items[index].category &&
+						this.order.items[index].category === category.id)
+			);
+		},
+
 		// Error Message
+		error_message(key) {
+			return this.errors.hasOwnProperty(key) ? this.errors[key] : false;
+		},
+		item_error_message(index, key) {
+			try {
+				return this.errors.items[index].hasOwnProperty(key)
+					? this.errors.items[index][key]
+					: false;
+			} catch (error) {
+				return false;
+			}
+		},
 		request_error(error) {
 			if (error.response) {
 				if (error.response.status == 400) {

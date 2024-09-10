@@ -1,6 +1,7 @@
-from django.db import transaction
-from rest_framework import viewsets
-from store.models import Order, OrderItem
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from store.models import Order
 from store.serializers import OrderSerializer
 
 
@@ -8,9 +9,16 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
-    @transaction.atomic
-    def perform_create(self, serializer):
-        items_data = self.request.data.pop("items")
-        order = serializer.save()
-        for item_data in items_data:
-            OrderItem.objects.create(order=order, **item_data)
+    @action(detail=False, methods=["post"])
+    def validate(self, request):
+        serializer = OrderSerializer(data=request.data)
+
+        if serializer.is_valid():
+            return Response(
+                {
+                    "message": "Data is valid, but not saved.",
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
