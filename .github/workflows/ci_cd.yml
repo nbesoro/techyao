@@ -37,3 +37,22 @@ jobs:
             - name: run black
               run: |
                   black . -l 129 --extend-exclude ".*\b(migrations)\b.*" --check
+
+    build-and-push:
+        runs-on: ubuntu-latest
+        needs: quality-code
+        # if: github.ref == 'refs/heads/main'
+        steps:
+            - uses: actions/checkout@v3
+            - name: Set env file
+              run: |
+                  chmod +x ./setup_env.sh
+                  bash ./setup_env.sh
+            - name: docker login
+              run: | # log into docker hub account
+                  docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $REGISTRY
+
+            - name: Build docker compose
+              run: docker-compose -f docker-compose.yml build
+            - name: Push all images to Docker Hub
+              run: docker-compose -f docker-compose.yml push

@@ -19,13 +19,16 @@ services:
             - "net"
         env_file:
             - ./.env
+        depends_on:
+            - db
     db:
         image: postgres:15
         volumes:
         - postgres_data:/var/lib/postgresql/data/
         env_file:
         - ./.env
-
+        networks:
+            - "net"
 networks:
     net:
         external: true
