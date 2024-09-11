@@ -161,4 +161,4 @@ REST_FRAMEWORK = {
 }
 
 
-CSRF_TRUSTED_ORIGINS = [ "https://*.nbesoro.com/"]
+CSRF_TRUSTED_ORIGINS = ["https://*.nbesoro.com/"]
