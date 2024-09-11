@@ -1,93 +1,241 @@
 <html>
-  {% load static %}
-  <head>
-    <meta charset="utf-8">
-    <title>Invoice</title>
-    <meta name="description" content="Invoice demo sample">
-    <link rel="stylesheet" href="{% static 'weasyprint/print.css' %}">
-    <style>
-      .footer > td{
-        text-align: right;
-      }
-      .tptt{
-        font-weight: 800;
-      }
-    </style>
-  </head>
+	<head>
+		<meta charset="utf-8" />
+		<title>Invoice</title>
+		<meta name="description" content="Invoice demo sample" />
 
-  <body>
-    <h1>Invoice</h1>
+		<style>
+			@font-face {
+				font-family: Pacifico;
+				src: url('https://cdn.jsdelivr.net/fontsource/fonts/pacifico@latest/latin-400-normal.ttf')
+					format("truetype");
+			}
 
-    <aside>
-      <address id="from">
-        TechYao
-        26 rue Emile Decorps
-        69100 Villeurbanne
-        Togo
-      </address>
+			@font-face {
+				font-family: Source Sans Pro;
+				font-weight: 400;
+				src: url('https://cdn.jsdelivr.net/fontsource/fonts/source-code-pro:vf@latest/latin-wght-normal.woff2')
+					format("woff2-variations");
+			}
 
-      <address id="to">
-        {{ customer.presentation }}
-        {{ customer.addresse }}
-        {{ customer.postal_code }}, {{ customer.city }}
-        {{ customer.phone }}
-      </address>
-    </aside>
+			@font-face {
+				font-family: Source Sans Pro;
+				font-weight: 700;
+				src: url('https://cdn.jsdelivr.net/fontsource/fonts/source-code-pro:vf@latest/latin-wght-normal.woff2')
+					format("woff2-variations");
+			}
 
-    <dl id="informations">
-      <dt>Invoice number</dt>
-      <dd>{{ number }}</dd>
-      <dt>Date</dt>
-      <dd>{{ created_at }}</dd>
-    </dl>
+			@page {
+				font-family: Pacifico;
+				margin: 2cm;
 
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>QT</th>
-          <th>P.U.HT</th>
-          <th>TVA</th>
-          <th>PRIX TTC</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-        {% for item in items %}
-          <tr>
-            <td>{{ item.product }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.price_ht }}</td>
-            <td>{{ item.vat }}</td>
-            <td>{{ item.total_price_ttc }}</td>
-          </tr>
-        {% endfor %}
-          
+				@bottom-left {
+					color: #1ee494;
+					content: "♥ Thank you!";
+				}
 
-        </tr>
-        <!-- footer -->
-        <tr class="footer">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>Total P.U.HT</td>
-          <td>{{ total_price_ht }}</td>
-        </tr>
-        <tr class="footer">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>Total TVA</td>
-          <td>{{ total_price_vat }}</td>
-        </tr>
-        <tr class="footer">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="tptt">Total PRIX TTC</td>
-          <td class="tptt">{{ total_price_ttc }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </body>
+				@bottom-right {
+					color: #a9a;
+					content: "bonjour@nbesoro.com | https://nbesoro.com";
+					font-size: 9pt;
+				}
+			}
+
+			html {
+				color: #14213d;
+				font-family: Source Sans Pro;
+				font-size: 11pt;
+				line-height: 1.6;
+			}
+
+			body {
+				margin: 0;
+			}
+
+			h1 {
+				color: #1ee494;
+				font-family: Pacifico;
+				font-size: 40pt;
+				margin: 0;
+			}
+
+			aside {
+				display: flex;
+				margin: 2em 0 4em;
+			}
+
+			aside address {
+				font-style: normal;
+				white-space: pre-line;
+			}
+
+			aside address#from {
+				color: #a9a;
+				flex: 1;
+			}
+
+			aside address#to {
+				text-align: right;
+			}
+
+			dl {
+				position: absolute;
+				right: 0;
+				text-align: right;
+				top: 0;
+			}
+
+			dt,
+			dd {
+				display: inline;
+				margin: 0;
+			}
+
+			dt {
+				color: #a9a;
+			}
+
+			dt::before {
+				content: "";
+				display: block;
+			}
+
+			dt::after {
+				content: ":";
+			}
+
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+
+			th {
+				border-bottom: 0.2mm solid #a9a;
+				color: #a9a;
+				font-size: 10pt;
+				font-weight: 400;
+				padding-bottom: 0.25cm;
+				text-transform: uppercase;
+			}
+
+			td {
+				padding-top: 7mm;
+			}
+
+			td:last-of-type {
+				color: #1ee494;
+				font-weight: bold;
+				text-align: right;
+			}
+
+			th,
+			td {
+				text-align: center;
+			}
+
+			th:first-of-type,
+			td:first-of-type {
+				text-align: left;
+			}
+
+			th:last-of-type,
+			td:last-of-type {
+				text-align: right;
+			}
+
+			footer {
+				content: "";
+				display: block;
+				height: 6cm;
+			}
+
+			table#total {
+				background: #f6f6f6;
+				border-color: #f6f6f6;
+				border-style: solid;
+				border-width: 2cm 3cm;
+				bottom: 0;
+				font-size: 20pt;
+				margin: 0 -3cm;
+				position: absolute;
+				width: 18cm;
+			}
+			.footer > td {
+				text-align: right;
+			}
+			.tptt {
+				font-weight: 800;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>Invoice</h1>
+
+		<aside>
+			<address id="from">
+				TechYao 26 rue Emile Decorps 69100 Villeurbanne Togo
+			</address>
+
+			<address id="to">
+				{{ customer.presentation }} 
+        {{ customer.addresse }} 
+        {{customer.postal_code }}, {{ customer.city }} 
+        {{ customer.phone}}
+			</address>
+		</aside>
+
+		<dl id="informations">
+			<dt>Invoice number</dt>
+			<dd>{{ number }}</dd>
+			<dt>Date</dt>
+			<dd>{{ created_at }}</dd>
+		</dl>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Description</th>
+					<th>QT</th>
+					<th>P.U.HT</th>
+					<th>TVA</th>
+					<th>PRICE TTC</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in items %}
+				<tr>
+					<td>{{ item.product }}</td>
+					<td>{{ item.quantity }}</td>
+					<td>{{ item.price_ht }}</td>
+					<td>{{ item.vat }}</td>
+					<td>{{ item.total_price_ttc }}</td>
+				</tr>
+				{% endfor %}
+
+				<!-- footer -->
+				<tr class="footer">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>Total P.U.HT</td>
+					<td>{{ total_price_ht }}</td>
+				</tr>
+				<tr class="footer">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>Total TVA</td>
+					<td>{{ total_price_vat }}</td>
+				</tr>
+				<tr class="footer">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="tptt">Total PRICE TTC</td>
+					<td class="tptt">{{ total_price_ttc }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
 </html>
