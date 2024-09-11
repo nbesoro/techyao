@@ -4,14 +4,10 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			rel="icon"
-			href="https://nbesoro.com/assets/logos/logo_2.svg"
-			type="image/x-icon"
-		/>
-		<title>Document</title>
+		
+		{% include 'bases/includes/meta.html' %}
 		<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
-		{% comment %} <link href="{% static 'flowbite/main.css' %}" rel="stylesheet" /> {% endcomment %}
+
 		<script>
 			tailwind.config = {
 				theme: {
