@@ -3,6 +3,17 @@ name: ci-cd
 on:
     push:
 
+env:
+    # DB
+    POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+    POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+    POSTGRES_DB: ${{ secrets.POSTGRES_PASSWORD }}
+    SQL_PORT: ${{ secrets.SQL_PORT }}
+
+    # docker registry
+    DOCKER_USER: ${{secrets.DOCKER_USER}}
+    DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+    REGISTRY: docker.io
 
 jobs:
     quality-code:
@@ -12,7 +23,11 @@ jobs:
             - uses: actions/setup-python@v4
               with:
                   python-version: "3.12"
-
+            - name: Set env file
+              run: |
+                  chmod +x ./setup_env.sh
+                  bash ./setup_env.sh
+                  
             - run: pip install flake8
             - run: pip install black
             - run: pip install setuptools>=65.5.1 wheel>=0.38.1

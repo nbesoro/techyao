@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -78,12 +81,26 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "sqlite3": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    "techdb": {
+        "ENGINE": str(os.environ.get("SQL_ENGINE")),
+        "NAME": str(os.environ.get("SQL_DATABASE")),
+        "USER": str(os.environ.get("SQL_USER")),
+        "PASSWORD": str(os.environ.get("SQL_PASSWORD")),
+        "HOST": str(os.environ.get("SQL_HOST")),
+        "PORT": str(os.environ.get("SQL_PORT")),
+    },
 }
 
+USE_POSTGRES_DATABASE = int(os.environ.get("USE_POSTGRES_DATABASE", default=0))
+
+if USE_POSTGRES_DATABASE:
+    DATABASES["default"] = DATABASES["techdb"]
+else:
+    DATABASES["default"] = DATABASES["sqlite3"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+    web-techyao:
+        image: "soro08/techyao"
+        container_name: techyao
+        command: python manage.py runserver 0.0.0.0:8005
+        environment:
+            - VIRTUAL_HOST=techyao.nbesoro.com
+            - LETSENCRYPT_HOST=techyao.nbesoro.com
+            - LETSENCRYPT_EMAIL=bonjour@nbesoro.com
+            - VIRTUAL_PORT=8005
+        expose:
+            - "8005"
+        volumes:
+            - staticfiles:/web/staticfiles
+        restart: always
+        networks:
+            - "net"
+        env_file:
+            - ./.env
+    db:
+        image: postgres:15
+        volumes:
+        - postgres_data:/var/lib/postgresql/data/
+        env_file:
+        - ./.env
+
+networks:
+    net:
+        external: true
+volumes:
+    postgres_data:
+    staticfiles:

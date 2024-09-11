@@ -1,0 +1,74 @@
+[
+	{
+		"model": "store.category",
+		"pk": 1,
+		"fields": {
+			"name": "Food",
+			"created_at": "2024-09-09T15:22:29.463Z",
+			"updated_at": "2024-09-09T15:22:29.463Z"
+		}
+	},
+	{
+		"model": "store.category",
+		"pk": 2,
+		"fields": {
+			"name": "High-Tech",
+			"created_at": "2024-09-09T15:39:32.574Z",
+			"updated_at": "2024-09-09T15:39:32.574Z"
+		}
+	},
+	{
+		"model": "store.category",
+		"pk": 3,
+		"fields": {
+			"name": "Liquide",
+			"created_at": "2024-09-10T22:18:29.889Z",
+			"updated_at": "2024-09-10T22:18:29.889Z"
+		}
+	},
+	{
+		"model": "store.product",
+		"pk": 1,
+		"fields": {
+			"category": 2,
+			"name": "Numph Air 92",
+			"brand": "Numphy",
+			"ref": "L00546KJL",
+			"price": 150.0,
+			"vat": 20.0,
+			"description": "",
+			"created_at": "2024-09-09T16:55:10.872Z",
+			"updated_at": "2024-09-09T16:55:10.872Z"
+		}
+	},
+	{
+		"model": "store.product",
+		"pk": 2,
+		"fields": {
+			"category": 1,
+			"name": "MSI alpha 17 c7vf",
+			"brand": "MSI",
+			"ref": "M555820213",
+			"price": 1500.0,
+			"vat": 10.0,
+			"description": "MSI PC GANER",
+			"created_at": "2024-09-10T12:18:59.799Z",
+			"updated_at": "2024-09-10T12:18:59.799Z"
+		}
+	},
+	{
+		"model": "store.product",
+		"pk": 3,
+		"fields": {
+			"category": 3,
+			"name": "Jus",
+			"brand": "JUS",
+			"ref": "B805264",
+			"price": 1200.0,
+			"vat": 15.0,
+			"description": "Hi",
+			"created_at": "2024-09-10T22:19:29.033Z",
+			"updated_at": "2024-09-10T22:19:29.033Z"
+		}
+	}
+]
