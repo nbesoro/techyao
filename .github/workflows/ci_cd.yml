@@ -56,3 +56,24 @@ jobs:
               run: docker compose -f docker-compose.yml build
             - name: Push all images to Docker Hub
               run: docker compose -f docker-compose.yml push
+
+    befor-deploy:
+        name: Before deploy
+        runs-on: ubuntu-latest
+        # if: github.ref == 'refs/heads/master'
+        needs: build-and-push
+        steps:
+            - uses: actions/checkout@v3
+            - name: Set env file
+              run: |
+                  chmod +x ./setup_env.sh
+                  bash ./setup_env.sh
+            - name: copy file frim ssh key
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                  host: ${{secrets.DEPLOY_PUBLIC_IP_ADDRESS}}
+                  username: ${{secrets.SERVER_USER}}
+                  key: ${{secrets.PRIVATE_KEY}}
+                  port: 22
+                  source: "./.env, ./docker-compose.prod.yml"
+                  target: "/${{secrets.SERVER_USER}}/techyao/"
