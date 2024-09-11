@@ -1,6 +1,6 @@
 # TechYAO Invoice App
 
-[![ci-cd](https://github.com/nbesoro/techyao/actions/workflows/ci_cd.yml/badge.svg?branch=main)](https://github.com/nbesoro/techyao/actions/workflows/ci_cd.yml)
+[![ci-cd](https://github.com/nbesoro/techyao/actions/workflows/ci_cd.yml/badge.svg)](https://github.com/nbesoro/techyao/actions/workflows/ci_cd.yml)
 
 Ce projet est une application web Django qui fonctionne avec Docker et Docker Compose. Il inclut une configuration pour lancer l'application localement en utilisant Docker.
 
