@@ -1,12 +1,8 @@
 name: ci-cd
 
 on:
-    pull_request:
-        branches:
-            - main
     push:
-env:
-    # Default
+
 
 jobs:
     quality-code:
