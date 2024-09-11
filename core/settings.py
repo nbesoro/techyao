@@ -163,3 +163,4 @@ REST_FRAMEWORK = {
 
 
 CSRF_TRUSTED_ORIGINS = ["https://*.nbesoro.com/"]
+LOGIN_URL = "account/login"
