@@ -23,3 +23,4 @@ class CustomerViewSet(viewsets.ModelViewSet):
         "first_name",
         "last_name",
     ]
+    http_method_names = ["get", "post", "head"]
