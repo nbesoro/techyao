@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-2z!4t84sq&1s4i^n9g28ztrtt)8gef37k&467fofxn6uy+_jc-"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 AUTH_USER_MODEL = "account.User"
@@ -78,12 +81,26 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "sqlite3": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    "techdb": {
+        "ENGINE": str(os.environ.get("SQL_ENGINE")),
+        "NAME": str(os.environ.get("SQL_DATABASE")),
+        "USER": str(os.environ.get("SQL_USER")),
+        "PASSWORD": str(os.environ.get("SQL_PASSWORD")),
+        "HOST": str(os.environ.get("SQL_HOST")),
+        "PORT": str(os.environ.get("SQL_PORT")),
+    },
 }
 
+USE_POSTGRES_DATABASE = int(os.environ.get("USE_POSTGRES_DATABASE", default=0))
+
+if USE_POSTGRES_DATABASE:
+    DATABASES["default"] = DATABASES["techdb"]
+else:
+    DATABASES["default"] = DATABASES["sqlite3"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -131,6 +148,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # DRF
 REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAdminUser",
+    ],
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
@@ -139,3 +159,6 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
+
+
+CSRF_TRUSTED_ORIGINS = ["https://*.nbesoro.com/"]

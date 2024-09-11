@@ -9,9 +9,7 @@ from .product import Product
 class Order(models.Model):
     """Model definition for Order."""
 
-    number = models.CharField(
-        max_length=constants.NORMAL_CHARFIELD, unique=True, blank=True
-    )
+    number = models.CharField(max_length=constants.NORMAL_CHARFIELD, unique=True, blank=True)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

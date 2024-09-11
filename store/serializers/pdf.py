@@ -6,9 +6,7 @@ from store.models import Order, OrderItem
 
 
 class OrderItemPdfSerializer(WritableNestedModelSerializer):
-    price_ttc = serializers.DecimalField(
-        max_digits=20, decimal_places=2, read_only=True
-    )
+    price_ttc = serializers.DecimalField(max_digits=20, decimal_places=2, read_only=True)
     vat = serializers.IntegerField(read_only=True)
     total_price_ttc = serializers.SerializerMethodField()
     product = serializers.SerializerMethodField()
@@ -41,34 +39,18 @@ class OrderPdfSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = [
-            "id",
-            "number",
-            "customer",
-            "items",
-            "total_price_ht",
-            "total_price_vat",
-            "total_price_ttc",
-            "created_at"
-        ]
+        fields = ["id", "number", "customer", "items", "total_price_ht", "total_price_vat", "total_price_ttc", "created_at"]
 
     def get_total_price_ht(self, obj):
-        total_ht = sum(
-            item.price_ht * item.quantity for item in obj.orderitem_set.all()
-        )
+        total_ht = sum(item.price_ht * item.quantity for item in obj.orderitem_set.all())
         return total_ht
 
     def get_total_price_vat(self, obj):
-        total_vat = sum(
-            (item.price_ht * item.vat / 100) * item.quantity
-            for item in obj.orderitem_set.all()
-        )
+        total_vat = sum((item.price_ht * item.vat / 100) * item.quantity for item in obj.orderitem_set.all())
         return total_vat
 
     def get_total_price_ttc(self, obj):
-        total_ttc = sum(
-            item.price_ttc * item.quantity for item in obj.orderitem_set.all()
-        )
+        total_ttc = sum(item.price_ttc * item.quantity for item in obj.orderitem_set.all())
         return total_ttc
 
     def get_created_at(self, obj):

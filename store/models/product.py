@@ -8,6 +8,7 @@ class Category(models.Model):
     name = models.CharField(max_length=constants.SHORT_CHARFIELD, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         """Meta definition for Category."""
 
@@ -31,6 +32,7 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         """Meta definition for Product."""
 

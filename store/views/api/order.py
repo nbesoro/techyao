@@ -19,9 +19,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
         order_id = response.data["id"]
-        url = request.build_absolute_uri(
-            reverse("generate_invoice_pdf", kwargs={"order_id": order_id})
-        )
+        url = request.build_absolute_uri(reverse("generate_invoice_pdf", kwargs={"order_id": order_id}))
         custom_response = {
             "pdf_url": url,
             "order": response.data,  # Les données de l'objet créé

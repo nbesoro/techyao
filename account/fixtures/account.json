@@ -1,0 +1,164 @@
+[
+	{
+		"model": "account.user",
+		"pk": 1,
+		"fields": {
+			"password": "pbkdf2_sha256$870000$dbC1UuZTTiVX1d9z4UGqCZ$eqoHr+nWetXdA0gecVft/uTOa2fiC3skI368gpWKikE=",
+			"last_login": "2024-09-11T10:21:23.672Z",
+			"is_superuser": true,
+			"first_name": "N'BE",
+			"last_name": "SORO",
+			"is_staff": true,
+			"is_active": true,
+			"date_joined": "2024-09-06T22:04:18Z",
+			"email": "bonjour@nbesoro.com",
+			"groups": [],
+			"user_permissions": []
+		}
+	},
+	{
+		"model": "account.user",
+		"pk": 2,
+		"fields": {
+			"password": "pbkdf2_sha256$870000$dbC1UuZTTiVX1d9z4UGqCZ$eqoHr+nWetXdA0gecVft/uTOa2fiC3skI368gpWKikE=",
+			"last_login": "2024-09-06T22:07:09Z",
+			"is_superuser": false,
+			"first_name": "Soro",
+			"last_name": "N'be",
+			"is_staff": false,
+			"is_active": true,
+			"date_joined": "2024-09-06T22:07:04Z",
+			"email": "soro4827@outlook.com",
+			"groups": [],
+			"user_permissions": []
+		}
+	},
+	{
+		"model": "account.user",
+		"pk": 3,
+		"fields": {
+			"password": "",
+			"last_login": null,
+			"is_superuser": false,
+			"first_name": "N'BE",
+			"last_name": "SORO",
+			"is_staff": false,
+			"is_active": true,
+			"date_joined": "2024-09-08T18:29:31.326Z",
+			"email": "soro4827@gmail.com",
+			"groups": [],
+			"user_permissions": []
+		}
+	},
+	{
+		"model": "account.user",
+		"pk": 4,
+		"fields": {
+			"password": "",
+			"last_login": null,
+			"is_superuser": false,
+			"first_name": "NBE",
+			"last_name": "SORO",
+			"is_staff": false,
+			"is_active": true,
+			"date_joined": "2024-09-08T19:52:05.384Z",
+			"email": "ibrasoro04@gmail.com",
+			"groups": [],
+			"user_permissions": []
+		}
+	},
+	{
+		"model": "account.user",
+		"pk": 5,
+		"fields": {
+			"password": "",
+			"last_login": null,
+			"is_superuser": false,
+			"first_name": "Rokia",
+			"last_name": "Kone",
+			"is_staff": false,
+			"is_active": true,
+			"date_joined": "2024-09-08T21:52:12.770Z",
+			"email": "nisconsultingci@gmail.com",
+			"groups": [],
+			"user_permissions": []
+		}
+	},
+	{
+		"model": "account.user",
+		"pk": 6,
+		"fields": {
+			"password": "",
+			"last_login": null,
+			"is_superuser": false,
+			"first_name": "Nis",
+			"last_name": "NISC",
+			"is_staff": false,
+			"is_active": true,
+			"date_joined": "2024-09-10T22:20:18.134Z",
+			"email": "ibrasoro04s@gmail.com",
+			"groups": [],
+			"user_permissions": []
+		}
+	},
+	{
+		"model": "account.customer",
+		"pk": 2,
+		"fields": {
+			"phone": "0748278174",
+			"phone2": null,
+			"addresse": "225 Abidjan cocody",
+			"postal_code": "225",
+			"city": "Abidjan",
+			"gender": "Mr"
+		}
+	},
+	{
+		"model": "account.customer",
+		"pk": 3,
+		"fields": {
+			"phone": "0748278174",
+			"phone2": "",
+			"addresse": "Abidjan Dokui",
+			"postal_code": "225",
+			"city": "Abidjan",
+			"gender": "Mr"
+		}
+	},
+	{
+		"model": "account.customer",
+		"pk": 4,
+		"fields": {
+			"phone": "4151234567",
+			"phone2": "",
+			"addresse": "965 Mission St #572",
+			"postal_code": "94103",
+			"city": "San Francisco",
+			"gender": "Mrs"
+		}
+	},
+	{
+		"model": "account.customer",
+		"pk": 5,
+		"fields": {
+			"phone": "0748278174",
+			"phone2": "",
+			"addresse": "165 Bd de la Villette",
+			"postal_code": "75010",
+			"city": "Paris",
+			"gender": "Mrs"
+		}
+	},
+	{
+		"model": "account.customer",
+		"pk": 6,
+		"fields": {
+			"phone": "0748278174",
+			"phone2": "",
+			"addresse": "NISC",
+			"postal_code": "94103",
+			"city": "Abidjan",
+			"gender": "Mr"
+		}
+	}
+]

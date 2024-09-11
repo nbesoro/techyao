@@ -5,9 +5,7 @@ from store.models import Order, OrderItem
 
 
 class OrderItemSerializer(WritableNestedModelSerializer):
-    price_ttc = serializers.DecimalField(
-        max_digits=20, decimal_places=2, read_only=True
-    )
+    price_ttc = serializers.DecimalField(max_digits=20, decimal_places=2, read_only=True)
     vat = serializers.IntegerField(read_only=True)
     total_price_ttc = serializers.SerializerMethodField()
 
@@ -38,10 +36,4 @@ class OrderSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Order
-        fields = [
-            "id",
-            "number",
-            "customer",
-            "items"
-        ]
-
+        fields = ["id", "number", "customer", "items"]

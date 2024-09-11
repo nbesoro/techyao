@@ -1,0 +1,9 @@
+[flake8]
+# default import from __.init__.py file
+# ignore = F403,F401,E41
+max-line-length = 129
+exclude =
+    migrations
+    __pycache__
+    manage.py
+    __init__.py

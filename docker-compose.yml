@@ -1,13 +1,24 @@
-version: '3.9'
-
 services:
   web:
     build: .
-    image: techyao
+    image: "soro08/techyao"
     container_name: techyao
-    command: python manage.py runserver 0.0.0.0:8005
+    command: ["sh", "./start.sh"]
     ports:
-      - "8001:8005"
+      - "8005:8005"
     volumes:
       - .:/web
-      
+      - staticfiles:/web/staticfiles
+    env_file:
+      - ./.env
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+
+volumes:
+    postgres_data:
+    staticfiles:
