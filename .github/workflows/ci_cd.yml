@@ -77,3 +77,26 @@ jobs:
                   port: 22
                   source: "./.env, ./docker-compose.prod.yml"
                   target: "/${{secrets.SERVER_USER}}/techyao/"
+
+    deploy:
+        runs-on: ubuntu-latest
+        #if: github.ref == 'refs/heads/master'
+        needs: befor-deploy
+        steps:
+            - uses: actions/checkout@v3
+            - name: docker login
+              run: | # log into docker hub account
+                  docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $REGISTRY
+            - name: Deploy using ssh
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{secrets.DEPLOY_PUBLIC_IP_ADDRESS}}
+                  username: ${{secrets.SERVER_USER}}
+                  key: ${{secrets.PRIVATE_KEY}}
+                  port: 22
+                  script: |
+                      cd /${{secrets.SERVER_USER}}/techyao/
+                      export $(cat .env | xargs)
+                      docker rm -vf $(docker ps --filter status=exited -aq) || true                 
+                      docker image prune -f -a || true
+                      docker-compose -f docker-compose.prod.yml up -d
