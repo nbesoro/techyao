@@ -7,7 +7,7 @@ env:
     # DB
     POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
     POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-    POSTGRES_DB: ${{ secrets.POSTGRES_PASSWORD }}
+    POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
     SQL_PORT: ${{ secrets.SQL_PORT }}
 
     # docker registry
