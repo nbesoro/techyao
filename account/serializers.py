@@ -5,8 +5,9 @@ from account.models import Customer
 class CustomerSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
-    presentation =serializers.SerializerMethodField()
+    presentation = serializers.SerializerMethodField()
     date_joined = serializers.DateTimeField(format="%d/%m/%Y %H:%M", read_only=True)
+
     class Meta:
         model = Customer
         fields = [
@@ -23,10 +24,10 @@ class CustomerSerializer(serializers.ModelSerializer):
             "city",
             "gender",
         ]
-        
+
     def get_presentation(self, obj):
         return f"{obj.gender}. {obj.get_full_name()}"
-    
+
     def validate_phone(self, value):
         if not value.isdigit():
             raise serializers.ValidationError("Phone number must be numeric.")

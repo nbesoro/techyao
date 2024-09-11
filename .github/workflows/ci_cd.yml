@@ -1,0 +1,28 @@
+name: ci-cd
+
+on:
+    pull_request:
+        branches:
+            - main
+    push:
+env:
+    # Default
+
+jobs:
+    quality-code:
+        runs-on: ubuntu-latest # operating system your code will run on
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.12"
+
+            - run: pip install flake8
+            - run: pip install black
+            - run: pip install setuptools>=65.5.1 wheel>=0.38.1
+            - run: pip install -r requirements.txt # install all our dependencies for the project
+            - name: run flake8
+              run: flake8 .
+            - name: run black
+              run: |
+                  black . -l 129 --extend-exclude ".*\b(migrations)\b.*" --check

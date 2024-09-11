@@ -21,11 +21,9 @@ def user_login(request):
             print("no")
     else:
         form = LoginForm()
-    return render(
-        request, "pages/auth/login.html", {"form": form, "on_error": on_error}
-    )
+    return render(request, "pages/auth/login.html", {"form": form, "on_error": on_error})
 
 
 def user_logout(request):
     logout(request)
-    return redirect('login')
+    return redirect("login")
