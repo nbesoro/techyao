@@ -9,6 +9,7 @@ env:
     POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
     POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
     SQL_PORT: ${{ secrets.SQL_PORT }}
+    REGISTRATION_TOKEN: ${{ secrets.REGISTRATION_TOKEN }}
 
     # docker registry
     DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -27,7 +28,7 @@ jobs:
               run: |
                   chmod +x ./setup_env.sh
                   bash ./setup_env.sh
-                  
+
             - run: pip install flake8
             - run: pip install black
             - run: pip install setuptools>=65.5.1 wheel>=0.38.1
@@ -50,11 +51,10 @@ jobs:
               run: |
                   chmod +x ./setup_env.sh
                   bash ./setup_env.sh
-                
+
             - run: pip install setuptools>=65.5.1 wheel>=0.38.1
             - run: pip install -r requirements.txt # install all our dependencies for the project
             - run: python manage.py test
-
 
     build-and-push:
         runs-on: ubuntu-latest
