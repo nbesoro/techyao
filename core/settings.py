@@ -164,3 +164,4 @@ REST_FRAMEWORK = {
 
 CSRF_TRUSTED_ORIGINS = ["https://*.nbesoro.com/"]
 LOGIN_URL = "account/login"
+REGISTRATION_TOKEN = os.environ.get("REGISTRATION_TOKEN")

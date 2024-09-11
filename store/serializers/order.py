@@ -37,3 +37,8 @@ class OrderSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Order
         fields = ["id", "number", "customer", "items"]
+
+    def validate_items(self, value):
+        if not value:
+            raise serializers.ValidationError("The order must contain at least one item.")
+        return value
