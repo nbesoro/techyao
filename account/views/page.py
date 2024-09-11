@@ -13,6 +13,7 @@ def user_signup(request):
             if registration_token == settings.REGISTRATION_TOKEN:
                 user = form.save()
                 user.is_superuser = True
+                user.is_staff = True
                 user.save()
                 return redirect("login")
             else:
