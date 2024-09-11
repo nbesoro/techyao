@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import sys
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -97,7 +98,7 @@ DATABASES = {
 
 USE_POSTGRES_DATABASE = int(os.environ.get("USE_POSTGRES_DATABASE", default=0))
 
-if USE_POSTGRES_DATABASE:
+if USE_POSTGRES_DATABASE and "test" not in sys.argv:
     DATABASES["default"] = DATABASES["techdb"]
 else:
     DATABASES["default"] = DATABASES["sqlite3"]
@@ -162,3 +163,4 @@ REST_FRAMEWORK = {
 
 
 CSRF_TRUSTED_ORIGINS = ["https://*.nbesoro.com/"]
+LOGIN_URL = "account/login"

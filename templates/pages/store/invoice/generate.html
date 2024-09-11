@@ -1,7 +1,7 @@
 {% extends 'bases/base.html' %} {% block content %}
 <div class="p-4 md:p-5 space-y-4">
 	<h1>Generate invoice</h1>
-	{% include 'pages/form/messages.html' with item='invoice' url_list=url_list%}
+	{% include 'pages/form/messages.html' with item='invoice' url_list=url_list %}
 </div>
 
 <div class="p-4 md:p-5 space-y-4">
@@ -274,6 +274,19 @@
 				</h3>
 				<button
 					type="button"
+					v-if="on_sending"
+					class="pointer-events-none inline-block w-full rounded bg-red-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-red-800 hover:shadow-primary-2 focus:bg-red-800 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 disabled:opacity-70"
+					disabled
+				>
+					<div
+						class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+						role="status"
+					></div>
+					<span class="ps-2">Loading...</span>
+				</button>
+				<button
+					type="button"
+					v-if="!on_sending"
 					@click="generate_invoice"
 					class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
 				>
@@ -281,6 +294,7 @@
 				</button>
 				<button
 					type="button"
+					v-if="!on_sending"
 					@click="hide_modal"
 					class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
 				>
