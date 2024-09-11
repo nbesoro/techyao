@@ -53,6 +53,6 @@ jobs:
                   docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $REGISTRY
 
             - name: Build docker compose
-              run: docker-compose -f docker-compose.yml build
+              run: docker compose -f docker-compose.yml build
             - name: Push all images to Docker Hub
-              run: docker-compose -f docker-compose.yml push
+              run: docker compose -f docker-compose.yml push
