@@ -56,6 +56,7 @@ const app = Vue.createApp({
 			on_success: false,
 			on_bad_error: false,
 			on_server_error: false,
+			on_sending: false,
 		};
 	},
 	delimiters: ["{", "}"],
@@ -247,16 +248,16 @@ const app = Vue.createApp({
 		},
 		generate_invoice() {
 			const cleanedOrder = this.clean_order_items_before_post();
-			console.log(this.order);
-			console.log(cleanedOrder);
+			this.on_sending = true;
 			axios
 				.post("/api/order/", cleanedOrder)
 				.then((response) => {
-					console.log(response.data.pdf_url);
 					window.location.replace(response.data.pdf_url);
+					this.on_sending = false;
 				})
 				.catch((error) => {
 					this.on_success = false;
+					this.on_sending = false;
 					this.request_error(error);
 				});
 		},
