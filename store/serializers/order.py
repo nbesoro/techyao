@@ -41,14 +41,12 @@ class OrderSerializer(WritableNestedModelSerializer):
     def validate_items(self, value):
         if not value:
             raise serializers.ValidationError("The order must contain at least one item.")
-        
-        products = [item['product'] for item in value]
-        
+
+        products = [item["product"] for item in value]
+
         duplicates = [product for product, count in Counter(products).items() if count > 1]
-        
+
         if duplicates:
             raise serializers.ValidationError("The same product cannot be added more than once to the order.")
-        
-        return value
 
-    
+        return value
