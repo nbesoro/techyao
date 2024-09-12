@@ -47,7 +47,6 @@ const app = Vue.createApp({
 					},
 				],
 			},
-			selectedCategories: [],
 			display_modal: false,
 			// Searche
 			searchQuery: "",
@@ -57,6 +56,7 @@ const app = Vue.createApp({
 			on_bad_error: false,
 			on_server_error: false,
 			on_sending: false,
+			privacyModal: "",
 		};
 	},
 	delimiters: ["{", "}"],
@@ -64,6 +64,20 @@ const app = Vue.createApp({
 		this.load_page_list_data();
 	},
 	methods: {
+		modal(open) {
+			modalEl = document.getElementById("info-popup");
+			const privacyModal = new Modal(modalEl, {
+				placement: "center",
+			});
+			if (open == 1) {
+				privacyModal.show();
+			}
+
+			const closeModalEl = document.getElementById("close-modal");
+			closeModalEl.addEventListener("click", function () {
+				privacyModal.hide();
+			});
+		},
 		load_page_list_data() {
 			switch (page_name) {
 				case "customer":
@@ -239,7 +253,7 @@ const app = Vue.createApp({
 			axios
 				.post("/api/order/validate/", cleanedOrder)
 				.then((response) => {
-					this.show_modal();
+					this.modal(1);
 				})
 				.catch((error) => {
 					this.on_success = false;
@@ -253,21 +267,14 @@ const app = Vue.createApp({
 				.post("/api/order/", cleanedOrder)
 				.then((response) => {
 					window.location.replace(response.data.pdf_url);
-					this.on_sending = false;
+					
 				})
 				.catch((error) => {
 					this.on_success = false;
-					this.on_sending = false;
 					this.request_error(error);
 				});
 		},
 		delete_order_item(index) {
-			const removedCategory = this.order.items[index].category;
-			if (removedCategory > 0) {
-				this.selectedCategories = this.selectedCategories.filter(
-					(cat) => cat.id !== removedCategory
-				);
-			}
 			this.order.items.splice(index, 1);
 		},
 		add_order_item() {
@@ -280,7 +287,9 @@ const app = Vue.createApp({
 				vat: 0,
 			});
 		},
-
+		handleCategorySelection(row, index) {
+			this.load_products_by_category(row);
+		},
 		set_order_item_product_price(item, index) {
 			let price = 0;
 			if (item.product > 0) {
@@ -289,35 +298,6 @@ const app = Vue.createApp({
 				)[0].price;
 			}
 			item.price_ht = price;
-		},
-
-		handleCategorySelection(item, index) {
-			if (item.oldCategory) {
-				this.selectedCategories = this.selectedCategories.filter(
-					(cat) => cat.id !== item.oldCategory
-				);
-			}
-
-			if (item.category) {
-				let cat = this.categories.results.filter(
-					(category) => category.id === item.category
-				)[0];
-				this.selectedCategories.push(cat);
-				item.oldCategory = item.category;
-
-				this.load_products_by_category(item, index);
-			}
-		},
-
-		availableCategories(index) {
-			return this.categories?.results?.filter(
-				(category) =>
-					!this.selectedCategories.some(
-						(selectedCat) => selectedCat.id === category.id
-					) ||
-					(this.order.items[index].category &&
-						this.order.items[index].category === category.id)
-			);
 		},
 
 		// Error Message

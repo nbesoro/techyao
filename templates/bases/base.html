@@ -7,7 +7,7 @@
 		
 		{% include 'bases/includes/meta.html' %}
 		<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
-
+		<script src="{% static 'vue/dist/vue.global.js' %}"></script>
 		<script>
 			tailwind.config = {
 				theme: {
@@ -52,7 +52,7 @@
 		</main>
 		<script src="{% static 'flowbite/flowbite.min.js' %}"></script>
 		<script src="{% static 'vue/dist/axios.min.js' %}"></script>
-		<script src="{% static 'vue/dist/vue.global.js' %}"></script>
+		
 
 		<script>
 			if ("X-CSRFTOKEN" in axios.defaults.headers.common) {
