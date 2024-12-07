@@ -56,4 +56,4 @@ RUN chown -R techyao:techyao $APP_HOME
 # change to the app user
 USER techyao
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8005"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8006"]

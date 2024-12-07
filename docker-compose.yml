@@ -5,7 +5,7 @@ services:
     container_name: techyao
     command: ["sh", "./start.sh"]
     ports:
-      - "8005:8005"
+      - "8006:8006"
     volumes:
       - .:/web
       - staticfiles:/web/staticfiles

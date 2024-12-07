@@ -4,14 +4,14 @@ services:
     web-techyao:
         image: "soro08/techyao"
         container_name: techyao
-        command: python manage.py runserver 0.0.0.0:8005
+        command: python manage.py runserver 0.0.0.0:8006
         environment:
             - VIRTUAL_HOST=techyao.nbesoro.com
             - LETSENCRYPT_HOST=techyao.nbesoro.com
             - LETSENCRYPT_EMAIL=bonjour@nbesoro.com
-            - VIRTUAL_PORT=8005
+            - VIRTUAL_PORT=8006
         expose:
-            - "8005"
+            - "8006"
         volumes:
             - staticfiles:/web/staticfiles
         restart: always
